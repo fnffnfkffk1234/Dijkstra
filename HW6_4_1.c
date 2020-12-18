@@ -6,16 +6,16 @@
 #define TRUE 1
 #define FALSE 0
 #define MAX_VERTICES	100	
-#define INF	1000000	/* ¹«ÇÑ´ë (¿¬°áÀÌ ¾ø´Â °æ¿ì) */
+#define INF	1000000	/* ë¬´í•œëŒ€ (ì—°ê²°ì´ ì—†ëŠ” ê²½ìš°) */
 
 typedef struct GraphType {
-	int n;	// Á¤Á¡ÀÇ °³¼ö
+	int n;	// ì •ì ì˜ ê°œìˆ˜
 	int adj_mat[MAX_VERTICES][MAX_VERTICES];
 } GraphType;
 
-int distance[MAX_VERTICES];		/* ½ÃÀÛÁ¤Á¡À¸·ÎºÎÅÍÀÇ ÃÖ´Ü°æ·Î °Å¸® */
-int found[MAX_VERTICES];		/* ¹æ¹®ÇÑ Á¤Á¡ Ç¥½Ã */
-int previous[MAX_VERTICES];		/* Á¤Á¡ÀÇ ÃÖ´Ü°æ·Î »ó¿¡ ÀÖ´Â ±× Á¤Á¡ÀÇ ¹Ù·Î ¾Õ Á¤Á¡*/
+int distance[MAX_VERTICES];		/* ì‹œì‘ì •ì ìœ¼ë¡œë¶€í„°ì˜ ìµœë‹¨ê²½ë¡œ ê±°ë¦¬ */
+int found[MAX_VERTICES];		/* ë°©ë¬¸í•œ ì •ì  í‘œì‹œ */
+int previous[MAX_VERTICES];		/* ì •ì ì˜ ìµœë‹¨ê²½ë¡œ ìƒì— ìˆëŠ” ê·¸ ì •ì ì˜ ë°”ë¡œ ì• ì •ì */
 
 void graph_init(GraphType *g)
 {
@@ -29,13 +29,13 @@ void read_graph(GraphType *g, char *filename)
 {
 	int number, u, v, weight;
 	FILE *fp;
-    fp = fopen(filename, "rt");
+    	fp = fopen(filename, "rt");
 	if (fp == NULL) 
 	{
 		printf("file %s open error!\n", filename);
 		return;
 	}
-     // ÄÚµå »ğÀÔ
+     // ì½”ë“œ ì‚½ì…
 	fscanf(fp, "%d", &number);
 	g->n = number;
 
@@ -43,7 +43,7 @@ void read_graph(GraphType *g, char *filename)
 		g->adj_mat[u][v] = weight;
 		g->adj_mat[v][u] = weight;
 	}
-    fclose(fp);
+    	fclose(fp);
 }
 int choose(int distance[], int n, int found[])
 {
@@ -87,13 +87,13 @@ void print_path(int start, int end)
 void shortest_path(GraphType* g, int start)
 {
 	int i, u, w, j;
-	for (i = 0; i < g->n; i++) /* ÃÊ±âÈ­ */
+	for (i = 0; i < g->n; i++) /* ì´ˆê¸°í™” */
 	{
 		distance[i] = g->adj_mat[start][i];
 		found[i] = FALSE;
 		previous[i] = start;
 	}
-	found[start] = TRUE;    /* ½ÃÀÛ Á¤Á¡ ¹æ¹® Ç¥½Ã */
+	found[start] = TRUE;    /* ì‹œì‘ ì •ì  ë°©ë¬¸ í‘œì‹œ */
 	distance[start] = 0;
 	for (i = 0; i < g->n - 1; i++) {
 		u = choose(distance, g->n, found);
@@ -112,10 +112,10 @@ void shortest_path(GraphType* g, int start)
 }
 int main()
 {
-	GraphType g;		// ÀÔ·Â ±×·¡ÇÁ
+	GraphType g;		// ì…ë ¥ ê·¸ë˜í”„
 	
 	graph_init(&g);
 	read_graph(&g, "input.txt");
 	
-	shortest_path(&g, 0);	//½ÃÀÛ Á¤Á¡
+	shortest_path(&g, 0);	//ì‹œì‘ ì •ì 
 }
